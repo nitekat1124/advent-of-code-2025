@@ -8,7 +8,7 @@ class Solution(SolutionBase):
 
         for line in data:
             turn, dist = line[0], int(line[1:])
-            sign = [-1, 1]["LR".index(turn)]
+            sign = "LCR".index(turn) - 1
 
             r = dist % 100
             pointing = (pointing + sign * r + 100) % 100
@@ -23,7 +23,7 @@ class Solution(SolutionBase):
 
         for line in data:
             turn, dist = line[0], int(line[1:])
-            sign = [-1, 1]["LR".index(turn)]
+            sign = "LCR".index(turn) - 1
 
             c = dist // 100
             zero_counter += c
