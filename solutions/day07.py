@@ -1,4 +1,5 @@
 from utils.solution_base import SolutionBase
+from collections import defaultdict
 
 
 class Solution(SolutionBase):
@@ -7,9 +8,10 @@ class Solution(SolutionBase):
         st = None
         for y, line in enumerate(data):
             row = list(line)
-            for x, c in enumerate(row):
-                if c == "S":
-                    st = (y, x)
+            if y == 0 and st is None:
+                for x, c in enumerate(row):
+                    if c == "S":
+                        st = (y, x)
             _map.append(row)
         return _map, st
 
@@ -39,22 +41,23 @@ class Solution(SolutionBase):
     def part2(self, data):
         _map, (y, x) = self.parse_data(data)
 
-        beams = {x: 1}
+        beams = defaultdict(int)
+        beams[x] = 1
 
         while True:
             if y > len(_map) - 2:
                 break
 
             y += 1
-            next_beams = {}
+            next_beams = defaultdict(int)
 
             for x in beams:
                 n = beams[x]
                 if _map[y][x] == "^":
-                    next_beams[x - 1] = next_beams.get(x - 1, 0) + n
-                    next_beams[x + 1] = next_beams.get(x + 1, 0) + n
+                    next_beams[x - 1] += n
+                    next_beams[x + 1] += n
                 else:
-                    next_beams[x] = next_beams.get(x, 0) + n
+                    next_beams[x] += n
             beams = next_beams
 
         return sum(beams.values())
